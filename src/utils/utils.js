@@ -4,3 +4,6 @@ export function formatPrice(cents) {
     currency: "USD",
   });
 }
+export function checkAvailable(status) {
+  return status === "available";
+}
