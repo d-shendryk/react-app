@@ -18,8 +18,6 @@ export default function Navbar() {
 
   useEffect(() => {
     dispatch(getItems());
-    dispatch(loadOrder());
-    dispatch(loadUser());
   }, [dispatch]);
 
   const login = useGoogleLogin({

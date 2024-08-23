@@ -7,7 +7,6 @@ export const getItems = createAsyncThunk("items/getItems", async () => {
 });
 
 export const addItem = createAsyncThunk("items/addItems", async (item) => {
-  console.log(item);
   const response = await client.patch("items.json", { [Date.now()]: item });
   return response.data;
 });

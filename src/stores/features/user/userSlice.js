@@ -1,18 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const userSlice = createSlice({
-  name: "order",
-  initialState: null,
+  name: "user",
+  initialState: (state) => {
+    const jsonUser = localStorage.getItem("user") || "{}";
+    return JSON.parse(jsonUser);
+  },
   reducers: {
     setUser: (state, { payload }) => {
       const jsonData = JSON.stringify(payload);
       localStorage.setItem("user", jsonData);
       return jsonData ? payload : null;
-    },
-    loadUser: (state) => {
-      const jsonOrder = localStorage.getItem("user") || null;
-      const user = jsonOrder ? JSON.parse(jsonOrder) : jsonOrder;
-      return user;
     },
   },
 });

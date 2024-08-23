@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Button from "@mui/material/Button";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { deleteFromOrder } from "../stores/features/order/orderSlice";
 import { formatPrice, checkAvailable } from "../utils/utils";
 
-export default function OrderItem(props) {
+const OrderItem = memo((props) => {
   const dispatch = useDispatch();
 
   const key = props.itemKey;
@@ -56,4 +56,6 @@ export default function OrderItem(props) {
       </Button>
     </p>
   );
-}
+});
+
+export default OrderItem;

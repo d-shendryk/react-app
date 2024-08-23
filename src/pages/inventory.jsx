@@ -2,9 +2,14 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import React from "react";
 import { useSelector } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarQuickFilter,
+} from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../utils/utils";
+import QuickSearchToolbar from "../components/searchToolbar";
 
 export default function Inventory() {
   let rows = [];
@@ -34,7 +39,9 @@ export default function Inventory() {
           alignItems: "center",
         }}
       >
-        <h2>Inventory</h2>
+        <Box>
+          <h2>Inventory</h2>
+        </Box>
         <Link to="/inventory/add">Add item</Link>
       </Box>
       <DataGrid
@@ -49,6 +56,7 @@ export default function Inventory() {
           },
         }}
         pageSizeOptions={[2, 5, 10, 20]}
+        slots={{ toolbar: QuickSearchToolbar }}
       />
     </Container>
   );

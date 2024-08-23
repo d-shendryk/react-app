@@ -9,18 +9,17 @@ import _ from "lodash";
 
 export const orderSlice = createSlice({
   name: "order",
-  initialState: {},
-  reducers: {
-    loadOrder: (state) => {
-      const jsonOrder = localStorage.getItem("order") || "{}";
-      const data = JSON.parse(jsonOrder);
-      const order = data.value ? data.value : data;
+  initialState: (state) => {
+    const jsonOrder = localStorage.getItem("order") || "{}";
+    const data = JSON.parse(jsonOrder);
+    const order = data.value ? data.value : data;
 
-      return {
-        ...state,
-        ...order,
-      };
-    },
+    return {
+      ...state,
+      ...order,
+    };
+  },
+  reducers: {
     addToOrder: (state, { payload: { itemKey, quantity } }) => {
       return {
         ...state,

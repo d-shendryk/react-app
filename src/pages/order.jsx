@@ -8,12 +8,14 @@ import { submitOrder } from "../api/order";
 import { formatPrice } from "../utils/utils";
 import useOrderTotal from "../hooks/order";
 import { setOrder } from "../stores/features/order/orderSlice";
+import { useThrottle } from "@uidotdev/usehooks";
 
 export default function Page() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
   const order = useSelector((state) => state.order);
-  const total = useOrderTotal();
+  const _total = useOrderTotal();
+  const total = useThrottle(_total, 500);
 
   const handleSubmit = () => {
     dispatch(submitOrder(order));
