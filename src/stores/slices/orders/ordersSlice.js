@@ -1,16 +1,17 @@
+import _ from 'lodash';
 import {
   createListenerMiddleware,
   createSlice,
   isAnyOf,
-} from "@reduxjs/toolkit";
-import { deleteItem as clientDeleteItem } from "../../../api/items";
-import { submitOrder } from "../../../api/order";
-import _ from "lodash";
+} from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { deleteItem as clientDeleteItem } from '~/api/items';
+import { submitOrder } from '~/api/orders';
 
-export const orderSlice = createSlice({
-  name: "order",
+export const ordersSlice = createSlice({
+  name: 'order',
   initialState: (state) => {
-    const jsonOrder = localStorage.getItem("order") || "{}";
+    const jsonOrder = localStorage.getItem('order') || '{}';
     const data = JSON.parse(jsonOrder);
     const order = data.value ? data.value : data;
 
@@ -21,6 +22,7 @@ export const orderSlice = createSlice({
   },
   reducers: {
     addToOrder: (state, { payload: { itemKey, quantity } }) => {
+      toast('Item added to order.');
       return {
         ...state,
         [itemKey]: state[itemKey] ? state[itemKey] + quantity : quantity,
@@ -30,6 +32,7 @@ export const orderSlice = createSlice({
       return { ...payload };
     },
     deleteFromOrder: (state, { payload: key }) => {
+      toast('Item removed from order.');
       const { [key]: _, ...newState } = state;
       return newState;
     },
@@ -40,20 +43,21 @@ export const orderSlice = createSlice({
       return _.pick(state, ...keys);
     });
     builder.addCase(submitOrder.fulfilled, () => {
+      toast('Order submitted successfully!');
       return {};
     });
   },
 });
 
 export const { loadOrder, addToOrder, deleteFromOrder, setOrder } =
-  orderSlice.actions;
+  ordersSlice.actions;
 
 export const itemsListenerMiddleware = createListenerMiddleware();
 itemsListenerMiddleware.startListening({
   matcher: isAnyOf(addToOrder, deleteFromOrder, setOrder),
   effect: async (action, listenerApi) => {
-    localStorage.setItem("order", JSON.stringify(listenerApi.getState().order));
+    localStorage.setItem('order', JSON.stringify(listenerApi.getState().order));
   },
 });
 
-export default orderSlice.reducer;
+export const ordersReducer = ordersSlice.reducer;

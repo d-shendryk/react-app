@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { checkAvailable } from "../utils/utils";
+import { useSelector } from 'react-redux';
+import { checkAvailable } from '~/utils/utils';
 
-export default function useOrderTotal() {
+export function useOrderTotal() {
   const items = useSelector((state) => state.items);
   const order = useSelector((state) => state.order);
   const orderIds = Object.keys(order);

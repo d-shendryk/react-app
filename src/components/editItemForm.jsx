@@ -1,32 +1,40 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteItem, updateItem } from "../api/items";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { deleteItem, updateItem } from '~/api/items';
+import { itemSchema } from '../stores/slices/items/itemsSlice';
 
-export default function EditItemForm({ item, itemId }) {
+export function EditItemForm({ item, itemId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const items = useSelector((state) => state.items);
 
-  const { register, handleSubmit, watch } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: item,
+    resolver: yupResolver(itemSchema),
   });
-  const selectValue = watch("status");
+  const selectValue = watch('status');
 
   const _onSubmit = (item) => {
-    let data = {};
+    const data = {};
     data[itemId] = item;
     dispatch(updateItem(data));
-    navigate("/inventory");
+    navigate('/inventory');
   };
 
   const onSubmit = (item) => {
@@ -36,7 +44,7 @@ export default function EditItemForm({ item, itemId }) {
       item.image = event.target.result;
       _onSubmit(item);
     };
-    if (item.image instanceof FileList) {
+    if (item.image[0] instanceof File) {
       item.image = item.image[0];
       reader.readAsDataURL(item.image);
     } else _onSubmit(item);
@@ -45,7 +53,7 @@ export default function EditItemForm({ item, itemId }) {
   const onDelete = () => {
     const { [itemId]: _, ...newItems } = items;
     dispatch(deleteItem(newItems));
-    navigate("/inventory");
+    navigate('/inventory');
   };
   return item ? (
     <Box sx={{ margin: 4 }}>
@@ -63,17 +71,21 @@ export default function EditItemForm({ item, itemId }) {
                 placeholder="Name"
                 variant="outlined"
                 required
-                {...register("name")}
+                {...register('name')}
+                error={errors.name}
+                helperText={errors.name?.message}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
-                inputProps={{ type: "number", min: 1 }}
+                inputProps={{ type: 'number', min: 0 }}
                 fullWidth
-                placeholder="Price"
+                placeholder="Price, cents"
                 variant="outlined"
                 required
-                {...register("price")}
+                {...register('price')}
+                error={errors.price}
+                helperText={errors.price ? 'Invalid price' : ''}
               />
             </Grid>
             <Grid item xs={8}>
@@ -82,7 +94,7 @@ export default function EditItemForm({ item, itemId }) {
                 type="file"
                 placeholder="Image"
                 variant="outlined"
-                {...register("image")}
+                {...register('image')}
               />
             </Grid>
             <Grid item xs={4}>
@@ -90,7 +102,7 @@ export default function EditItemForm({ item, itemId }) {
                 fullWidth
                 placeholder="Status"
                 value={selectValue}
-                {...register("status")}
+                {...register('status')}
               >
                 <MenuItem value="available">In stock</MenuItem>
                 <MenuItem value="unavailable">Out of stock</MenuItem>
@@ -102,20 +114,25 @@ export default function EditItemForm({ item, itemId }) {
                 multiline
                 placeholder="Description"
                 variant="outlined"
-                {...register("description")}
+                {...register('description')}
+                error={errors.description}
+                helperText={errors.description?.message}
               />
             </Grid>
-            <Grid item>
-              <Button
-                color="primary"
-                variant="contained"
-                type="submit"
-                sx={{ mr: 2 }}
-              >
+            <Grid item sx={{ display: 'flex', gap: 3 }}>
+              <Button color="primary" variant="contained" type="submit">
                 Save
               </Button>
               <Button color="secondary" variant="contained" onClick={onDelete}>
                 Delete Item
+              </Button>
+              <Button
+                color="warning"
+                variant="contained"
+                component={Link}
+                to="/inventory"
+              >
+                Cancel
               </Button>
             </Grid>
           </Grid>
@@ -123,6 +140,6 @@ export default function EditItemForm({ item, itemId }) {
       </Paper>
     </Box>
   ) : (
-    navigate("/inventory")
+    navigate('/inventory')
   );
 }

@@ -1,10 +1,9 @@
-"use client";
-import React from "react";
-import Box from "@mui/material/Box";
-import Item from "../components/item";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Box from '@mui/material/Box';
+import { Item } from '~/components/item';
 
-export default function Shop() {
+export function Shop() {
   const items = useSelector((state) => state.items);
 
   return (

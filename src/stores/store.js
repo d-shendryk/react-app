@@ -1,15 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
-import itemsReducer from "./features/items/itemsSlice";
-import userReducer from "./features/user/userSlice";
-import orderReducer, {
+import { configureStore } from '@reduxjs/toolkit';
+import { usersReducer } from './slices/users/usersSlice';
+import { itemsReducer } from './slices/items/itemsSlice';
+import {
+  ordersReducer,
   itemsListenerMiddleware,
-} from "./features/order/orderSlice";
+} from './slices/orders/ordersSlice';
 
 export const store = configureStore({
   reducer: {
     items: itemsReducer,
-    order: orderReducer,
-    user: userReducer,
+    order: ordersReducer,
+    user: usersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().prepend(itemsListenerMiddleware.middleware),

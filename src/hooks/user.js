@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-export default function useIsLoggedIn() {
+export function useIsLoggedIn() {
   const user = useSelector((state) => state.user);
   return Boolean(user);
 }

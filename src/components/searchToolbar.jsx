@@ -1,11 +1,11 @@
-import { Box } from "@mui/material";
-import { GridToolbarQuickFilter } from "@mui/x-data-grid";
+import { Box } from '@mui/material';
+import { GridToolbarQuickFilter } from '@mui/x-data-grid';
 
-const QuickSearchToolbar = () => {
+export function QuickSearchToolbar() {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: 'flex',
         p: 0.5,
         pb: 0,
       }}
@@ -13,6 +13,4 @@ const QuickSearchToolbar = () => {
       <GridToolbarQuickFilter debounceMs={500} />
     </Box>
   );
-};
-
-export default QuickSearchToolbar;
+}

@@ -1,16 +1,16 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import List from "@mui/material/List";
-import OrderItem from "../components/orderItem";
-import { useDispatch, useSelector } from "react-redux";
-import { submitOrder } from "../api/order";
-import { formatPrice } from "../utils/utils";
-import useOrderTotal from "../hooks/order";
-import { setOrder } from "../stores/features/order/orderSlice";
-import { useThrottle } from "@uidotdev/usehooks";
+import React from 'react';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import { useDispatch, useSelector } from 'react-redux';
+import { useThrottle } from '@uidotdev/usehooks';
+import { OrderItem } from '~/components/orderItem';
+import { useOrderTotal } from '~/hooks/order';
+import { setOrder } from '~/stores/slices/orders/ordersSlice';
+import { formatPrice } from '~/utils/utils';
+import { submitOrder } from '~/api/orders';
 
-export default function Page() {
+export function OrderPage() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
   const order = useSelector((state) => state.order);
@@ -24,7 +24,7 @@ export default function Page() {
 
   return (
     <Container>
-      <List sx={{ width: "100%" }}>
+      <List sx={{ width: '100%' }}>
         {Object.keys(order).map(
           (key) =>
             items[key] && (
@@ -33,8 +33,8 @@ export default function Page() {
                 order={order}
                 key={key}
                 itemKey={Number(key)}
-              ></OrderItem>
-            )
+              />
+            ),
         )}
       </List>
       <h2>Total: {formatPrice(total)}</h2>

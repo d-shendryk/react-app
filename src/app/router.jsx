@@ -1,15 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
-import Shop from "../pages/shop";
-import Inventory from "../pages/inventory";
-import Order from "../pages/order";
-import Layout from "../layouts/layout";
-import InventoryEdit from "../pages/inventoryEdit";
-import InventoryAdd from "../pages/InventoryAdd";
-import ProtectedRoute from "../components/protectedRoute";
+import { createBrowserRouter } from 'react-router-dom';
+import { Shop } from '~/pages/shop';
+import { InventoryPage } from '~/pages/inventory';
+import { OrderPage } from '~/pages/order';
+import { Layout } from '~/layouts/layout';
+import { InventoryEditPage } from '~/pages/inventoryEdit';
+import { InventoryAddPage } from '~/pages/inventoryAdd';
+import { ProtectedRoute } from '~/components/protectedRoute';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
@@ -17,35 +17,26 @@ const router = createBrowserRouter([
         element: <Shop />,
       },
       {
-        path: "/inventory",
-        element: (
-          <ProtectedRoute>
-            <Inventory />
-          </ProtectedRoute>
-        ),
+        path: '/order',
+        element: <OrderPage />,
       },
       {
-        path: "/inventory/add",
-        element: (
-          <ProtectedRoute>
-            <InventoryAdd />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/inventory/:itemId",
-        element: (
-          <ProtectedRoute>
-            <InventoryEdit />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/order",
-        element: <Order />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: '/inventory',
+            element: <InventoryPage />,
+          },
+          {
+            path: '/inventory/add',
+            element: <InventoryAddPage />,
+          },
+          {
+            path: '/inventory/:itemId',
+            element: <InventoryEditPage />,
+          },
+        ],
       },
     ],
   },
 ]);
-
-export default router;

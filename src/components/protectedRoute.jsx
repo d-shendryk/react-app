@@ -1,11 +1,11 @@
-import { Navigate } from "react-router-dom";
-import useIsLoggedIn from "../hooks/user";
+import { Navigate, Outlet } from 'react-router-dom';
+import { useIsLoggedIn } from '~/hooks/user';
 
-export default function ProtectedRoute({ children }) {
+export function ProtectedRoute() {
   const isLoggedIn = useIsLoggedIn();
 
   if (!isLoggedIn) {
     return <Navigate to="/" replace />;
   }
-  return children;
+  return <Outlet />;
 }

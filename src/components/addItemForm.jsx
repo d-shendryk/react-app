@@ -1,22 +1,29 @@
-"use client";
-import React from "react";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
-import { addItem } from "../api/items";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { addItem } from '~/api/items';
+import { itemSchema } from '../stores/slices/items/itemsSlice';
 
-export default function AddItemForm() {
+export function AddItemForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(itemSchema),
+  });
 
   const onSubmit = (item) => {
     item.image = item.image[0];
@@ -25,9 +32,15 @@ export default function AddItemForm() {
     reader.onloadend = (event) => {
       item.image = event.target.result;
       dispatch(addItem(item));
-      navigate("/inventory");
+      navigate('/inventory');
     };
-    reader.readAsDataURL(item.image);
+
+    if (item.image) {
+      reader.readAsDataURL(item.image);
+    } else {
+      dispatch(addItem(item));
+      navigate('/inventory');
+    }
   };
 
   return (
@@ -46,17 +59,21 @@ export default function AddItemForm() {
                 placeholder="Name"
                 variant="outlined"
                 required
-                {...register("name")}
+                {...register('name')}
+                error={errors.name}
+                helperText={errors.name?.message}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
-                inputProps={{ type: "number", min: 1 }}
+                inputProps={{ type: 'number', min: 0 }}
                 fullWidth
-                placeholder="Price"
+                placeholder="Price, cents"
                 variant="outlined"
                 required
-                {...register("price")}
+                {...register('price')}
+                error={errors.price}
+                helperText={errors.price ? 'Invalid price' : ''}
               />
             </Grid>
             <Grid item xs={8}>
@@ -65,15 +82,15 @@ export default function AddItemForm() {
                 type="file"
                 placeholder="Image"
                 variant="outlined"
-                {...register("image")}
+                {...register('image')}
               />
             </Grid>
             <Grid item xs={4}>
               <Select
                 fullWidth
                 placeholder="Status"
-                {...register("status")}
-                defaultValue={"available"}
+                {...register('status')}
+                defaultValue="available"
               >
                 <MenuItem value="available">In stock</MenuItem>
                 <MenuItem value="unavailable">Out of stock</MenuItem>
@@ -85,12 +102,22 @@ export default function AddItemForm() {
                 multiline
                 placeholder="Description"
                 variant="outlined"
-                {...register("description")}
+                {...register('description')}
+                error={errors.description}
+                helperText={errors.description?.message}
               />
             </Grid>
-            <Grid item>
+            <Grid item sx={{ display: 'flex', gap: 3 }}>
               <Button color="primary" variant="contained" type="submit">
                 Save
+              </Button>
+              <Button
+                color="warning"
+                variant="contained"
+                component={Link}
+                to="/inventory"
+              >
+                Cancel
               </Button>
             </Grid>
           </Grid>

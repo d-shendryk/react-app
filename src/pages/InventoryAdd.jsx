@@ -1,5 +1,5 @@
-import AddItemForm from "../components/addItemForm";
+import { AddItemForm } from '~/components/addItemForm';
 
-export default function InventoryAdd() {
+export function InventoryAddPage() {
   return <AddItemForm />;
 }

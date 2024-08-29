@@ -1,31 +1,34 @@
-import React, { memo } from "react";
-import Button from "@mui/material/Button";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItem from "@mui/material/ListItem";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
-import { deleteFromOrder } from "../stores/features/order/orderSlice";
-import { formatPrice, checkAvailable } from "../utils/utils";
+import React, { memo } from 'react';
+import Button from '@mui/material/Button';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItem from '@mui/material/ListItem';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from 'react-redux';
+import { deleteFromOrder } from '~/stores/slices/orders/ordersSlice';
+import { formatPrice } from '~/utils/utils';
 
-const OrderItem = memo((props) => {
+export const OrderItem = memo(function OrderItemComponent({
+  itemKey,
+  item,
+  order,
+}) {
   const dispatch = useDispatch();
 
-  const key = props.itemKey;
-  const { name, price, image, status } = props.item;
-  const count = props.order[key];
-  const isAvailable = checkAvailable(status);
+  const key = itemKey;
+  const { name, price, image } = item;
+  const count = order[key];
   const totalPrice = formatPrice(price * count);
 
-  return isAvailable ? (
+  return (
     <Box
       key={key}
       sx={{
-        display: "flex",
-        flexWrap: "wrap",
+        display: 'flex',
+        flexWrap: 'wrap',
       }}
     >
       <Paper elevation={10} component={ListItem} sx={{ mb: 3 }}>
@@ -48,14 +51,5 @@ const OrderItem = memo((props) => {
         </Button>
       </Paper>
     </Box>
-  ) : (
-    <p>
-      {props.item?.name ? props.item.name : "Product"} is out of stock.
-      <Button onClick={() => dispatch(deleteFromOrder(key))}>
-        <CloseIcon />
-      </Button>
-    </p>
   );
 });
-
-export default OrderItem;
