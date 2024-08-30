@@ -11,7 +11,6 @@
   },
   "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
-    "@babel/preset-react": "^7.24.7",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
@@ -33,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
+    "@babel/preset-react": "^7.24.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vercel/style-guide": "^6.0.0",
