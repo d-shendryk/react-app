@@ -5,8 +5,8 @@ import {
   isAnyOf,
 } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { deleteItem as clientDeleteItem } from '~/api/items';
-import { submitOrder } from '~/api/orders';
+import { deleteItem as clientDeleteItem } from '@api/items';
+import { submitOrder } from '@api/orders';
 
 export const ordersSlice = createSlice({
   name: 'order',

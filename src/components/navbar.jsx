@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import { getItems } from '~/api/items';
-import { setUser } from '~/stores/slices/users/usersSlice';
-import { useIsLoggedIn } from '~/hooks/user';
+import { getItems } from '@api/items';
+import { setUser } from '@stores';
+import { useIsLoggedIn } from '@hooks/user';
 
 export function Navbar() {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { RouterProvider } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
-import { store } from '~/stores/store';
+import { store } from '@stores';
 import { router } from './router';
 import theme from './theme';
 import 'react-toastify/dist/ReactToastify.css';

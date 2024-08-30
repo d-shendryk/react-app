@@ -8,16 +8,15 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { deleteItem, updateItem } from '~/api/items';
+import { updateItem } from '@api/items';
 import { itemSchema } from '../stores/slices/items/itemsSlice';
 
 export function EditItemForm({ item, itemId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const items = useSelector((state) => state.items);
 
   const {
     register,
@@ -38,23 +37,19 @@ export function EditItemForm({ item, itemId }) {
   };
 
   const onSubmit = (item) => {
+    const newItem = { ...item };
     const reader = new FileReader();
 
     reader.onloadend = (event) => {
-      item.image = event.target.result;
-      _onSubmit(item);
+      newItem.image = event.target.result;
+      _onSubmit(newItem);
     };
-    if (item.image[0] instanceof File) {
-      item.image = item.image[0];
-      reader.readAsDataURL(item.image);
-    } else _onSubmit(item);
+    if (newItem.image[0] instanceof File) {
+      newItem.image = newItem.image[0];
+      reader.readAsDataURL(newItem.image);
+    } else _onSubmit(newItem);
   };
 
-  const onDelete = () => {
-    const { [itemId]: _, ...newItems } = items;
-    dispatch(deleteItem(newItems));
-    navigate('/inventory');
-  };
   return item ? (
     <Box sx={{ margin: 4 }}>
       <Paper elevation={10} component={Container} maxWidth="sm">
@@ -70,21 +65,19 @@ export function EditItemForm({ item, itemId }) {
                 fullWidth
                 placeholder="Name"
                 variant="outlined"
-                required
                 {...register('name')}
-                error={errors.name}
+                error={Boolean(errors.name)}
                 helperText={errors.name?.message}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
-                inputProps={{ type: 'number', min: 0 }}
+                inputProps={{ type: 'number' }}
                 fullWidth
                 placeholder="Price, cents"
                 variant="outlined"
-                required
                 {...register('price')}
-                error={errors.price}
+                error={Boolean(errors.price)}
                 helperText={errors.price ? 'Invalid price' : ''}
               />
             </Grid>
@@ -95,6 +88,8 @@ export function EditItemForm({ item, itemId }) {
                 placeholder="Image"
                 variant="outlined"
                 {...register('image')}
+                error={Boolean(errors.image)}
+                helperText={errors.image?.message}
               />
             </Grid>
             <Grid item xs={4}>
@@ -122,9 +117,6 @@ export function EditItemForm({ item, itemId }) {
             <Grid item sx={{ display: 'flex', gap: 3 }}>
               <Button color="primary" variant="contained" type="submit">
                 Save
-              </Button>
-              <Button color="secondary" variant="contained" onClick={onDelete}>
-                Delete Item
               </Button>
               <Button
                 color="warning"

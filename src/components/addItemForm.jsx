@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { addItem } from '~/api/items';
+import { addItem } from '@api/items';
 import { itemSchema } from '../stores/slices/items/itemsSlice';
 
 export function AddItemForm() {
@@ -26,19 +26,19 @@ export function AddItemForm() {
   });
 
   const onSubmit = (item) => {
-    item.image = item.image[0];
+    const newItem = { ...item, image: item.image[0] };
     const reader = new FileReader();
 
     reader.onloadend = (event) => {
-      item.image = event.target.result;
-      dispatch(addItem(item));
+      newItem.image = event.target.result;
+      dispatch(addItem(newItem));
       navigate('/inventory');
     };
 
-    if (item.image) {
-      reader.readAsDataURL(item.image);
+    if (newItem.image) {
+      reader.readAsDataURL(newItem.image);
     } else {
-      dispatch(addItem(item));
+      dispatch(addItem(newItem));
       navigate('/inventory');
     }
   };
@@ -58,21 +58,19 @@ export function AddItemForm() {
                 fullWidth
                 placeholder="Name"
                 variant="outlined"
-                required
                 {...register('name')}
-                error={errors.name}
+                error={Boolean(errors.name)}
                 helperText={errors.name?.message}
               />
             </Grid>
             <Grid item xs={4}>
               <TextField
-                inputProps={{ type: 'number', min: 0 }}
+                inputProps={{ type: 'number' }}
                 fullWidth
                 placeholder="Price, cents"
                 variant="outlined"
-                required
                 {...register('price')}
-                error={errors.price}
+                error={Boolean(errors.price)}
                 helperText={errors.price ? 'Invalid price' : ''}
               />
             </Grid>
@@ -80,9 +78,10 @@ export function AddItemForm() {
               <TextField
                 fullWidth
                 type="file"
-                placeholder="Image"
                 variant="outlined"
                 {...register('image')}
+                error={Boolean(errors.image)}
+                helperText={errors.image?.message}
               />
             </Grid>
             <Grid item xs={4}>

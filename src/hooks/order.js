@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { checkAvailable } from '~/utils/utils';
+import { checkAvailable } from '@utils/utils';
 
 export function useOrderTotal() {
   const items = useSelector((state) => state.items);

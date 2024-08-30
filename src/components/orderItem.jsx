@@ -8,8 +8,8 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
-import { deleteFromOrder } from '~/stores/slices/orders/ordersSlice';
-import { formatPrice } from '~/utils/utils';
+import { deleteFromOrder } from '@stores';
+import { formatPrice } from '@utils/utils';
 
 export const OrderItem = memo(function OrderItemComponent({
   itemKey,
@@ -18,14 +18,13 @@ export const OrderItem = memo(function OrderItemComponent({
 }) {
   const dispatch = useDispatch();
 
-  const key = itemKey;
   const { name, price, image } = item;
-  const count = order[key];
+  const count = order[itemKey];
   const totalPrice = formatPrice(price * count);
 
   return (
     <Box
-      key={key}
+      key={itemKey}
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -46,7 +45,7 @@ export const OrderItem = memo(function OrderItemComponent({
           />
         </ListItemAvatar>
         <ListItemText primary={`${count} kg ${name}`} secondary={totalPrice} />
-        <Button onClick={() => dispatch(deleteFromOrder(key))}>
+        <Button onClick={() => dispatch(deleteFromOrder(itemKey))}>
           <CloseIcon sx={{ m: 0 }} />
         </Button>
       </Paper>

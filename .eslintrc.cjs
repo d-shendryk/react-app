@@ -11,24 +11,15 @@ module.exports = {
       },
     ],
   },
-  parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-    requireConfigFile: false,
     babelOptions: {
       presets: ['@babel/preset-react'],
-      configFile: false,
-      babelrc: false,
     },
   },
   settings: {
     'import/resolver': {
       typescript: {
-        project: './tsconfig.json',
+        project: './jsconfig.json',
       },
     },
   },

@@ -6,13 +6,18 @@ import {
   updateItem as clientUpdateItem,
   deleteItem as clientDeleteItem,
   addItem as clientAddItem,
-} from '~/api/items';
+} from '@api/items';
+import { checkFileRequired, checkFileSize } from '@utils/utils';
 
 export const itemSchema = yup
   .object({
     name: yup.string().min(3).max(40).required().trim(),
     price: yup.number().positive().integer().required(),
-    image: yup.mixed(),
+    image: yup
+      .mixed()
+      .required()
+      .test('required', 'File is required.', checkFileRequired)
+      .test('fileSize', 'File is too large.', checkFileSize),
     status: yup.string().oneOf(['available', 'unavailable']),
     description: yup.string().max(400),
   })

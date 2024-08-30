@@ -6,9 +6,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { formatPrice } from '~/utils/utils';
-import { QuickSearchToolbar } from '~/components/searchToolbar';
-import { deleteItem } from '~/api/items';
+import { formatPrice } from '@utils/utils';
+import { QuickSearchToolbar } from '@components/searchToolbar';
+import { deleteItem } from '@api/items';
 
 export function InventoryPage() {
   const items = useSelector((state) => state.items);
@@ -43,6 +43,7 @@ export function InventoryPage() {
       </Box>
     );
   };
+
   const columns = [
     { field: 'name', headerName: 'Name', flex: 2, renderCell: renderNameCell },
     { field: 'price', headerName: 'Price', flex: 1 },
@@ -79,6 +80,7 @@ export function InventoryPage() {
         <Link to="/inventory/add">Add item</Link>
       </Box>
       <DataGrid
+        sx={{ minHeight: 200 }}
         disableRowSelectionOnClick
         rows={rows}
         columns={columns}
@@ -90,7 +92,10 @@ export function InventoryPage() {
           },
         }}
         pageSizeOptions={[2, 5, 10, 20]}
-        slots={{ toolbar: QuickSearchToolbar }}
+        slots={{
+          toolbar: QuickSearchToolbar,
+        }}
+        localeText={{ noRowsLabel: 'No items' }}
       />
     </Container>
   );

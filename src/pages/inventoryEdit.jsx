@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { EditItemForm } from '~/components/editItemForm';
+import { Typography } from '@mui/material';
+import { EditItemForm } from '@components/editItemForm';
 
 export function InventoryEditPage() {
   const items = useSelector((state) => state.items);
@@ -11,6 +12,6 @@ export function InventoryEditPage() {
   return !_.isEmpty(items) ? (
     <EditItemForm item={item} itemId={itemId} />
   ) : (
-    <> </>
+    <Typography variant="h3">No item found.</Typography>
   );
 }
