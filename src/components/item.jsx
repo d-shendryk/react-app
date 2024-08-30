@@ -6,7 +6,7 @@ import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import { formatPrice, checkAvailable } from '@utils/utils';
+import { formatPrice, checkAvailable } from '@utils';
 import { addToOrder } from '@stores';
 
 function ShopItem({

@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Link, useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { formatPrice } from '@utils/utils';
+import { formatPrice } from '@utils';
 import { QuickSearchToolbar } from '@components/searchToolbar';
 import { deleteItem } from '@api/items';
 

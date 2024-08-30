@@ -7,7 +7,7 @@ import {
   deleteItem as clientDeleteItem,
   addItem as clientAddItem,
 } from '@api/items';
-import { checkFileRequired, checkFileSize } from '@utils/utils';
+import { checkFileRequired, checkFileSize } from '@utils';
 
 export const itemSchema = yup
   .object({

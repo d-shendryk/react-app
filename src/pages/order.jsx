@@ -9,7 +9,7 @@ import { Typography } from '@mui/material';
 import { OrderItem } from '@components/orderItem';
 import { useOrderTotal } from '@hooks/order';
 import { setOrder } from '@stores';
-import { formatPrice } from '@utils/utils';
+import { formatPrice } from '@utils';
 import { submitOrder } from '@api/orders';
 
 export function OrderPage() {

@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { deleteFromOrder } from '@stores';
-import { formatPrice } from '@utils/utils';
+import { formatPrice } from '@utils';
 
 export const OrderItem = memo(function OrderItemComponent({
   itemKey,
