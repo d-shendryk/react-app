@@ -12,7 +12,8 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { updateItem } from '@api/items';
-import { itemSchema } from '../stores/slices/items/itemsSlice';
+import { itemSchema } from '@/stores';
+import { ItemStatuses } from '@utils';
 
 export function EditItemForm({ item, itemId }) {
   const dispatch = useDispatch();
@@ -99,8 +100,10 @@ export function EditItemForm({ item, itemId }) {
                 value={selectValue}
                 {...register('status')}
               >
-                <MenuItem value="available">In stock</MenuItem>
-                <MenuItem value="unavailable">Out of stock</MenuItem>
+                <MenuItem value={ItemStatuses.Available}>In stock</MenuItem>
+                <MenuItem value={ItemStatuses.Unavailable}>
+                  Out of stock
+                </MenuItem>
               </Select>
             </Grid>
             <Grid item xs={12}>

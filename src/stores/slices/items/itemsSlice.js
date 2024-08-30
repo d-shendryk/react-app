@@ -7,7 +7,7 @@ import {
   deleteItem as clientDeleteItem,
   addItem as clientAddItem,
 } from '@api/items';
-import { checkFileRequired, checkFileSize } from '@utils';
+import { checkFileRequired, checkFileSize, ItemStatuses } from '@utils';
 
 export const itemSchema = yup
   .object({
@@ -18,7 +18,7 @@ export const itemSchema = yup
       .required()
       .test('required', 'File is required.', checkFileRequired)
       .test('fileSize', 'File is too large.', checkFileSize),
-    status: yup.string().oneOf(['available', 'unavailable']),
+    status: yup.string().oneOf(Object.values(ItemStatuses)),
     description: yup.string().max(400),
   })
   .required();

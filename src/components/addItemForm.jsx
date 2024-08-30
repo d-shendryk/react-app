@@ -12,7 +12,8 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addItem } from '@api/items';
-import { itemSchema } from '../stores/slices/items/itemsSlice';
+import { ItemStatuses } from '@utils';
+import { itemSchema } from '@stores';
 
 export function AddItemForm() {
   const dispatch = useDispatch();
@@ -91,8 +92,10 @@ export function AddItemForm() {
                 {...register('status')}
                 defaultValue="available"
               >
-                <MenuItem value="available">In stock</MenuItem>
-                <MenuItem value="unavailable">Out of stock</MenuItem>
+                <MenuItem value={ItemStatuses.Available}>In stock</MenuItem>
+                <MenuItem value={ItemStatuses.Unavailable}>
+                  Out of stock
+                </MenuItem>
               </Select>
             </Grid>
             <Grid item xs={12}>

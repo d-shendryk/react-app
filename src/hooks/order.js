@@ -11,9 +11,6 @@ export function useOrderTotal() {
     const count = order[Number(key)];
     const isAvailable = checkAvailable(item?.status);
 
-    if (isAvailable) {
-      return prevValue + count * item.price;
-    }
-    return prevValue;
+    return isAvailable ? prevValue + count * item.price : prevValue;
   }, 0);
 }

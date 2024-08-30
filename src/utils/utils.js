@@ -1,13 +1,12 @@
-export const formatPrice = (cents) => {
-  return (cents / 100).toLocaleString('en-US', {
+import { ItemStatuses } from './constants';
+
+export const formatPrice = (cents) =>
+  (cents / 100).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
   });
-};
 
-export const checkAvailable = (status) => {
-  return status === 'available';
-};
+export const checkAvailable = (status) => status === ItemStatuses.Available;
 
 export const checkFileRequired = (data) =>
   typeof data === 'string' || Boolean(data.length);
@@ -17,5 +16,5 @@ export const checkFileSize = (data) => {
   if (typeof data === 'string') return true;
 
   const maxFileSize = 5 * 10 ** 6; // around 5 megabytes
-  return data.length && data[0].size <= maxFileSize;
+  return data[0]?.size <= maxFileSize;
 };
