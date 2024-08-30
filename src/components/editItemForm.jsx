@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { updateItem } from '@api/items';
-import { itemSchema } from '@/stores';
+import { itemSchema } from '@stores';
 import { ItemStatuses } from '@utils';
 
 export function EditItemForm({ item, itemId }) {
