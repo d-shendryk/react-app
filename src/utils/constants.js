@@ -1,4 +1,4 @@
 export const ItemStatuses = {
   Available: 'available',
-  Unavailable: 'available',
+  Unavailable: 'unavailable',
 };
